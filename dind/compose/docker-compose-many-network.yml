@@ -1,0 +1,40 @@
+# docker-compose --file docker-compose-many-network.yml run curl -v example.com | grep title
+
+version: '3'
+
+services:
+  curl:
+    image: curlimages/curl:7.74.0
+    environment:
+      http_proxy:
+      https_proxy:
+    networks:
+      - a
+      - b
+      - c
+      - d
+      - e
+      - f
+      - g
+      - h
+      - i
+      - j
+      - k
+      - l
+
+# dockerが衝突を回避しちゃうので docker in docker で検証するのは無理だった
+# docker network inspect $(docker network ls -q) | grep -E "Subnet|Name"
+# printenv http_proxy
+networks:
+  a:
+  b:
+  c:
+  d:
+  e:
+  f:
+  g:
+  h:
+  i:
+  j:
+  k:
+  l:

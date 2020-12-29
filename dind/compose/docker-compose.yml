@@ -1,0 +1,10 @@
+# docker-compose run curl -v example.com | grep title
+
+version: '3'
+
+services:
+  curl:
+    image: curlimages/curl:7.74.0
+    environment:
+      http_proxy:
+      https_proxy:

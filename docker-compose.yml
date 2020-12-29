@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+  dind:
+    build:
+      context: ./dind/
+      args:
+        http_proxy:
+        https_proxy:
+    privileged : true
+    volumes:
+      - var_lib_docker:/var/lib/docker
+    tty: true
+    environment: # for docker pull
+      http_proxy: "http://proxy:3128"
+      https_proxy: "http://proxy:3128"
+    networks:
+      - private
+
+  proxy:
+    build:
+      context: ./proxy/
+      args:
+        http_proxy:
+        https_proxy:
+    environment:
+      TZ:
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10mb"
+        max-file: "3"
+    networks:
+      - public
+      - private
+
+networks:
+  public:
+  private:
+    internal: true
+
+volumes:
+  var_lib_docker:
